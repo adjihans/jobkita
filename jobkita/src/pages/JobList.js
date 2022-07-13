@@ -20,7 +20,10 @@ export const JobList = () => {
   const { state } = useLocation();
 
   const onClick = (data) => {
-    history.push(`/job/${data.id}`, { data: data });
+    history.push(`/job/${data.id}`, {
+      jobSlug: data.slug,
+      companySlug: data.company.slug,
+    });
   };
 
   const onClickSearchButton = () => {

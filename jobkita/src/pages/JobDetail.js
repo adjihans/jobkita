@@ -1,11 +1,26 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import DefaultLogo from "../assets/images/default-logo.png";
+import { useQuery } from "@apollo/client";
+import { GET_JOB } from "../config/schema";
 
 export const JobDetail = () => {
   const { state } = useLocation();
+
+  const { data, refetch } = useQuery(GET_JOB, {
+    variables: {
+      input: {
+        jobSlug: state.jobSlug,
+        companySlug: state.companySlug,
+      },
+    },
+  });
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     <JobDetailContainer>
@@ -15,27 +30,27 @@ export const JobDetail = () => {
           <div className="info">
             <img
               className="company-logo"
-              src={state.data.company.logoUrl || DefaultLogo}
+              src={data?.job?.company.logoUrl || DefaultLogo}
             />
-            <p>{state.data.company.name} is hiring a</p>
+            <p>{data?.job?.company.name} is hiring a</p>
           </div>
           <div className="apply">
-            <a className="ref" href={state.data.applyUrl}>
+            <a className="ref" href={data?.job?.applyUrl}>
               Apply
             </a>
           </div>
         </Header>
-        <Title>{state.data.title}</Title>
+        <Title>{data?.job?.title}</Title>
         <b>Description:</b>
-        <Description>{state.data.description}</Description>
+        <Description>{data?.job?.description}</Description>
         <Footer>
           <div className="bold">Tags:</div>
-          <div>{state.data.tags.map((tag) => tag.name).join(" - ")}</div>
+          <div>{data?.job?.tags?.map((tag) => tag.name).join(" - ")}</div>
           <div className="bold">Posted:</div>
-          <div>{new Date(state.data.postedAt).toString()}</div>
+          <div>{new Date(data?.job?.postedAt).toString()}</div>
         </Footer>
         <div className="apply">
-          <a className="ref" href={state.data.applyUrl}>
+          <a className="ref" href={data?.job?.applyUrl}>
             Apply
           </a>
         </div>

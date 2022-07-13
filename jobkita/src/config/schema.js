@@ -10,6 +10,10 @@ export const GET_JOB = gql`
       title
       description
       applyUrl
+      postedAt
+      tags {
+        name
+      }
     }
   }
 `;
