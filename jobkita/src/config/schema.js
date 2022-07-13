@@ -43,3 +43,11 @@ export const GET_JOBS = gql`
     }
   }
 `;
+
+export const POST_JOB = gql`
+  mutation PostJob($input: PostJobInput!) {
+    postJob(input: $input) {
+      id
+    }
+  }
+`;
