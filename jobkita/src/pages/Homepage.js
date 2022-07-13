@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import BackgroundImage from "../assets/images/homepage-jumbotron-background.jpg";
 import Navbar from "../components/Navbar";
+import SearchBar from "../components/SearchBar";
 
 export const Homepage = () => {
   const [role, setRole] = useState("");
@@ -12,15 +13,7 @@ export const Homepage = () => {
       <div className="description-container">
         <Title>Jobkita</Title>
         <Description>Where candidate and interviewer matched</Description>
-        <SearchBarContainer>
-          <input className="search-bar" placeholder="Role..." value={role} />
-          <input
-            className="search-bar"
-            placeholder="Location..."
-            value={location}
-          />
-          <button className="search-button">Search</button>
-        </SearchBarContainer>
+        <SearchBar role={role} location={location} />
       </div>
     </Jumbotron>
   );
@@ -57,42 +50,4 @@ const Description = styled.div`
   font-size: 24px;
   color: #25282b;
   margin: 8px 0;
-`;
-
-const SearchBarContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  .search-bar {
-    background-color: #ffffff;
-    height: 30px;
-    width: 250px;
-    padding: 12px;
-    margin: 0 16px;
-
-    border-radius: 4px;
-    border: #fff;
-    font-size: 16px;
-
-    cursor: text;
-
-    align-items: center;
-    display: flex;
-  }
-
-  .search-button {
-    background-color: #f15e75;
-    font-weight: bold;
-    width: 150px;
-    padding: 12px;
-    border-radius: 4px;
-    border: #fff;
-    font-size: 16px;
-
-    cursor: pointer;
-
-    &:hover {
-      background-color: #f78da7;
-    }
-  }
 `;
