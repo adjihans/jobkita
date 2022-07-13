@@ -5,7 +5,10 @@ import styled from "styled-components";
 
 const Navbar = (props) => {
   return (
-    <NavbarSticky showBorder={props.showBorder || false}>
+    <NavbarSticky
+      showBorder={props.showBorder || false}
+      backgroundColor={props.backgroundColor}
+    >
       <div className="brand">Jobkita</div>
       <StyledLink to={siteMap.HomePage.path}>Home</StyledLink>
       <StyledLink to={siteMap.JobListPage.path}>Job List</StyledLink>
@@ -28,6 +31,9 @@ const NavbarSticky = styled.div`
   align-items: center;
 
   ${({ showBorder }) => showBorder && `border-bottom: 2px solid #25282b;`}
+
+  ${({ backgroundColor }) =>
+    backgroundColor && `background-color: ${backgroundColor};`}
 
   color: #000000;
 
