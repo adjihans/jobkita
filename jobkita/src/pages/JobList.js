@@ -1,9 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import SearchBar from "../components/SearchBar";
 import { useQuery, gql, refetch } from "@apollo/client";
 import Card from "../components/Card";
+import DefaultLogo from "../assets/images/default-logo.png";
 
 const GET_JOBS = gql`
   query GetJobs {
@@ -34,8 +35,10 @@ export const JobList = () => {
   const { data, loading, error, refetch } = useQuery(GET_JOBS);
 
   const generateLocation = (data) => {
-    if (data.locationNames) return data.locationNames;
-    if (data.countries) {
+    if (data.locationNames) {
+      return data.locationNames;
+    }
+    if (data.countries.length) {
       const countries = data.countries.map((country) => country.name);
       return countries.join(" - ");
     }
@@ -55,7 +58,7 @@ export const JobList = () => {
       return (
         <Card
           key={item.id}
-          logo={item.company?.logoUrl}
+          logo={item.company?.logoUrl || DefaultLogo}
           name={item.company?.name}
           role={item.title}
           location={generateLocation(item)}
@@ -72,10 +75,10 @@ export const JobList = () => {
   return (
     <JobListContainer>
       <Navbar showBorder={true} backgroundColor="#fff" />
-      <div className="list-container">
+      <div className="search-bar">
         <SearchBar role={role} location={location} />
-        {renderJobList()}
       </div>
+      <div className="list-container">{renderJobList()}</div>
     </JobListContainer>
   );
 };
@@ -85,9 +88,18 @@ export default JobList;
 const JobListContainer = styled.div`
   width: 100%;
 
-  .list-container {
-    flex-direction: column;
+  .search-bar {
     display: flex;
+    flex-direction: column;
     align-items: center;
+  }
+
+  .list-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 100%;
   }
 `;
