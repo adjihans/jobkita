@@ -2,37 +2,22 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import styled from "styled-components";
 import SearchBar from "../components/SearchBar";
-import { useQuery, gql, refetch } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Card from "../components/Card";
 import DefaultLogo from "../assets/images/default-logo.png";
-
-const GET_JOBS = gql`
-  query GetJobs {
-    jobs {
-      id
-      title
-      locationNames
-      countries {
-        name
-      }
-      cities {
-        name
-      }
-      company {
-        name
-        logoUrl
-      }
-      tags {
-        name
-      }
-    }
-  }
-`;
+import { useHistory } from "react-router";
+import { GET_JOBS } from "../config/schema";
 
 export const JobList = () => {
   const [role, setRole] = useState("");
   const [location, setLocation] = useState("");
   const { data, loading, error, refetch } = useQuery(GET_JOBS);
+  const history = useHistory();
+
+  const onClick = (data) => {
+    console.log(data);
+    history.push(`/job/${data.id}`, { data: data });
+  };
 
   const generateLocation = (data) => {
     if (data.locationNames) {
@@ -56,14 +41,15 @@ export const JobList = () => {
 
     return data.jobs.map((item) => {
       return (
-        <Card
-          key={item.id}
-          logo={item.company?.logoUrl || DefaultLogo}
-          name={item.company?.name}
-          role={item.title}
-          location={generateLocation(item)}
-          tags={generateTags(item)}
-        />
+        <div key={item.id} onClick={() => onClick(item)}>
+          <Card
+            logo={item.company?.logoUrl || DefaultLogo}
+            name={item.company?.name}
+            role={item.title}
+            location={generateLocation(item)}
+            tags={generateTags(item)}
+          />
+        </div>
       );
     });
   };
