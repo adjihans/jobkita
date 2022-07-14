@@ -36,14 +36,18 @@ const SearchBar = (props) => {
             value={props.Tags}
             onChange={(event) => props.onChangeInput(event, "tags")}
           />
+        </>
+      )}
+      <div>
+        {isJobListPage && (
           <button className="search-button" onClick={props.onClickSortBy}>
             {props.isAscending ? "Asc" : "Desc"}
           </button>
-        </>
-      )}
-      <button className="search-button" onClick={props.onClickSearchButton}>
-        Search
-      </button>
+        )}
+        <button className="search-button" onClick={props.onClickSearchButton}>
+          Search
+        </button>
+      </div>
     </SearchBarContainer>
   );
 };
@@ -53,13 +57,16 @@ export default SearchBar;
 const SearchBarContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 8px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding-top: 8px;
   .search-bar {
     background-color: #ffffff;
     height: 15px;
-    width: 250px;
+    width: 330px;
     padding: 12px;
-    margin: 0 16px;
+    margin: 8px 16px;
 
     border-radius: 4px;
     font-size: 16px;
@@ -73,11 +80,11 @@ const SearchBarContainer = styled.div`
   .search-button {
     background-color: #f15e75;
     font-weight: bold;
-    width: 75px;
+    width: 150px;
     padding: 12px;
     border-radius: 4px;
     border: #fff;
-    margin: 0 8px;
+    margin: 8px;
     font-size: 16px;
 
     cursor: pointer;
