@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
 import { POST_JOB } from "../config/schema";
 import { useHistory } from "react-router";
 import Navbar from "../components/Navbar";
+import styled from "styled-components";
+import { toast } from "react-toastify";
 
 export const JobCreate = () => {
   const history = useHistory();
@@ -57,44 +59,124 @@ export const JobCreate = () => {
     });
   };
 
+  useEffect(() => {
+    if (error) {
+      return toast.error(`${error}`);
+    }
+    if (data) {
+      toast.success("Job is successfully create", {
+        onClose: () => setTimeout(() => history.replace("/job"), 1000),
+      });
+    }
+  }, [data, error]);
+
   return (
-    <div>
+    <JobContainer>
       <Navbar showBorder={true} backgroundColor="#fff" />
-      <div>
-        <input
-          placeholder="Company Name"
-          value={form.companyName}
-          onChange={(event) => onChange(event, "companyName")}
-        />
-        <input
-          placeholder="Company Address"
-          value={form.companyAddress}
-          onChange={(event) => onChange(event, "companyAddress")}
-        />
-        <input
-          placeholder="Job Title"
-          value={form.jobTitle}
-          onChange={(event) => onChange(event, "jobTitle")}
-        />
-        <input
-          placeholder="Job Description"
-          value={form.jobDescription}
-          onChange={(event) => onChange(event, "jobDescription")}
-        />
-        <input
-          placeholder="User Email"
-          value={form.userEmail}
-          onChange={(event) => onChange(event, "userEmail")}
-        />
-        <input
-          placeholder="URL"
-          value={form.applyUrl}
-          onChange={(event) => onChange(event, "applyUrl")}
-        />
-        <button onClick={handleOnClickCreate}>Create</button>
+      <div className="job-form">
+        <div className="job-form-title">Post Your Job</div>
+        <div className="job-form-container">
+          <input
+            className="input-form"
+            placeholder="Company Name"
+            value={form.companyName}
+            onChange={(event) => onChange(event, "companyName")}
+          />
+          <input
+            className="input-form"
+            placeholder="Company Address"
+            value={form.companyAddress}
+            onChange={(event) => onChange(event, "companyAddress")}
+          />
+          <input
+            className="input-form"
+            placeholder="Job Title"
+            value={form.jobTitle}
+            onChange={(event) => onChange(event, "jobTitle")}
+          />
+          <input
+            className="input-form"
+            placeholder="User Email"
+            value={form.userEmail}
+            onChange={(event) => onChange(event, "userEmail")}
+          />
+          <input
+            className="input-form"
+            placeholder="URL"
+            value={form.applyUrl}
+            onChange={(event) => onChange(event, "applyUrl")}
+          />
+          <textarea
+            className="text-area-form"
+            placeholder="Job Description"
+            value={form.jobDescription}
+            onChange={(event) => onChange(event, "jobDescription")}
+          />
+          <button className="submit-button" onClick={handleOnClickCreate}>
+            Create
+          </button>
+        </div>
       </div>
-    </div>
+    </JobContainer>
   );
 };
 
 export default JobCreate;
+
+const JobContainer = styled.div`
+  width: 100%;
+  .job-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    color: #25282b;
+
+    .job-form-title {
+      font-weight: bold;
+      font-size: 50px;
+      margin: 8px;
+    }
+
+    .job-form-container {
+      display: flex;
+      flex-direction: column;
+
+      .input-form {
+        width: 330px;
+        height: 50px;
+        margin: 8px;
+        border: 2px solid #25282b;
+        border-radius: 8px;
+        font-size: 20px;
+      }
+
+      .text-area-form {
+        width: 330px;
+        height: 75px;
+        margin: 8px;
+        border: 2px solid #25282b;
+        border-radius: 8px;
+        font-size: 20px;
+      }
+
+      .submit-button {
+        width: 200px;
+        height: 45px;
+        margin: 8px;
+        background-color: #f15e75;
+        font-weight: bold;
+        padding: 12px;
+        border-radius: 8px;
+        border: #fff;
+        font-size: 16px;
+
+        cursor: pointer;
+
+        &:hover {
+          background-color: #f78da7;
+        }
+      }
+    }
+  }
+`;
