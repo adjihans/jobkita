@@ -46,7 +46,7 @@ const Jumbotron = styled.div`
   width: 100%;
   height: 100vh;
   background: white url(${BackgroundImage}) no-repeat fixed center;
-  background-size: 100vw;
+  background-size: cover;
 
   display: flex;
   flex-direction: column;
@@ -58,6 +58,7 @@ const Jumbotron = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    text-align: center;
   }
 `;
 
