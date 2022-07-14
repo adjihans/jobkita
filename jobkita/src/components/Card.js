@@ -38,6 +38,9 @@ const CardContainer = styled.div`
 
   cursor: pointer;
 
+  background-color: #fff;
+  border-radius: 8px;
+
   .card-header-container {
     display: flex;
     margin: 8px;

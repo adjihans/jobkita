@@ -7,6 +7,7 @@ import Card from "../components/Card";
 import DefaultLogo from "../assets/images/default-logo.png";
 import { useHistory, useLocation } from "react-router";
 import { GET_JOBS } from "../config/schema";
+import { generateLocation, generateTags } from "../util/functions";
 
 export const JobList = () => {
   const [role, setRole] = useState("");
@@ -91,23 +92,6 @@ export const JobList = () => {
     }
     setIsAscending(!isAscending);
     setMappedData(tempData);
-  };
-
-  const generateLocation = (data) => {
-    if (data.locationNames) {
-      return data.locationNames;
-    }
-    if (data.countries.length) {
-      const countries = data.countries.map((country) => country.name);
-      return countries.join(" - ");
-    }
-    return "Location Unspecified";
-  };
-
-  const generateTags = (data) => {
-    if (!data.tags || !data.tags.length) return "Tags Unspecified";
-    const tags = data.tags.map((tag) => tag.name);
-    return tags.join(" - ");
   };
 
   const renderJobList = () => {
