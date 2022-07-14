@@ -95,6 +95,11 @@ export const JobList = () => {
   };
 
   const renderJobList = () => {
+    if (loading || !mappedData.length) {
+      return new Array(10)
+        .fill(true)
+        .map((element, index) => <Card key={index} />);
+    }
     return mappedData?.map((item) => {
       return (
         <div key={item.id} onClick={() => onClick(item)}>

@@ -9,6 +9,7 @@ import { useQuery } from "@apollo/client";
 import SearchBar from "../components/SearchBar";
 import { generateLocation, generateTags } from "../util/functions";
 import DefaultLogo from "../assets/images/default-logo.png";
+import Skeleton from "react-loading-skeleton";
 
 export const Homepage = () => {
   const [role, setRole] = useState("");
@@ -70,18 +71,26 @@ export const Homepage = () => {
       </div>
       <Title>Job Preview</Title>
       <div className="show-preview-joblist">
-        {sampleData.map((item) => (
-          <div key={item.id} onClick={() => onClickCard(item)}>
-            <Card
-              logo={item.company?.logoUrl || DefaultLogo}
-              name={item.company?.name}
-              role={item.title}
-              location={generateLocation(item)}
-              tags={generateTags(item)}
-            />
-          </div>
-        ))}
-        <ExploreCard onClick={onClickForMore}>Click for more</ExploreCard>
+        {loading ? (
+          <Card />
+        ) : (
+          <>
+            {sampleData.map((item) => (
+              <div key={item.id} onClick={() => onClickCard(item)}>
+                <Card
+                  logo={item.company?.logoUrl || DefaultLogo}
+                  name={item.company?.name}
+                  role={item.title}
+                  location={generateLocation(item)}
+                  tags={generateTags(item)}
+                />
+              </div>
+            ))}
+            <ExploreCard onClick={onClickForMore}>
+              {loading ? <Skeleton /> : "Click for more"}
+            </ExploreCard>
+          </>
+        )}
       </div>
       <div className="job-openings">
         <Title>Post Your Job</Title>

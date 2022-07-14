@@ -5,11 +5,12 @@ import styled from "styled-components";
 import DefaultLogo from "../assets/images/default-logo.png";
 import { useQuery } from "@apollo/client";
 import { GET_JOB } from "../config/schema";
+import Skeleton from "react-loading-skeleton";
 
 export const JobDetail = () => {
   const { state } = useLocation();
 
-  const { data, refetch } = useQuery(GET_JOB, {
+  const { data, loading, refetch } = useQuery(GET_JOB, {
     variables: {
       input: {
         jobSlug: state.jobSlug,
@@ -28,30 +29,51 @@ export const JobDetail = () => {
       <div className="information">
         <Header>
           <div className="info">
-            <img
-              className="company-logo"
-              src={data?.job?.company.logoUrl || DefaultLogo}
-            />
-            <p>{data?.job?.company.name} is hiring a</p>
+            {loading ? (
+              <>
+                <Skeleton />
+                <Skeleton />
+              </>
+            ) : (
+              <>
+                <img
+                  className="company-logo"
+                  src={data?.job?.company.logoUrl || DefaultLogo}
+                />
+                <p>{data?.job?.company.name} is hiring a</p>
+              </>
+            )}
           </div>
           <div className="apply">
             <a className="ref" href={data?.job?.applyUrl}>
-              Apply
+              {loading ? <Skeleton /> : "Apply"}
             </a>
           </div>
         </Header>
-        <Title>{data?.job?.title}</Title>
-        <b>Description:</b>
-        <Description>{data?.job?.description}</Description>
+        <Title>{loading ? <Skeleton /> : data?.job?.title}</Title>
+        <b>{loading ? <Skeleton /> : "Description:"}</b>
+        <Description>
+          {loading
+            ? new Array(10).fill(true).map((element) => <Skeleton />)
+            : data?.job?.description}
+        </Description>
         <Footer>
-          <div className="bold">Tags:</div>
-          <div>{data?.job?.tags?.map((tag) => tag.name).join(" - ")}</div>
-          <div className="bold">Posted:</div>
-          <div>{new Date(data?.job?.postedAt).toString()}</div>
+          <div className="bold">{loading ? <Skeleton /> : "Tags:"}</div>
+          <div>
+            {loading ? (
+              <Skeleton />
+            ) : (
+              data?.job?.tags?.map((tag) => tag.name).join(" - ")
+            )}
+          </div>
+          <div className="bold">{loading ? <Skeleton /> : "Posted:"}</div>
+          <div>
+            {loading ? <Skeleton /> : new Date(data?.job?.postedAt).toString()}
+          </div>
         </Footer>
         <div className="apply">
           <a className="ref" href={data?.job?.applyUrl}>
-            Apply
+            {loading ? <Skeleton /> : "Apply"}
           </a>
         </div>
       </div>

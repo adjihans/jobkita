@@ -1,4 +1,5 @@
 import React from "react";
+import Skeleton from "react-loading-skeleton";
 import styled from "styled-components";
 
 const Card = (props) => {
@@ -6,15 +7,17 @@ const Card = (props) => {
     <CardContainer>
       <div className="card-header-container">
         <div className="card-data-container image">
-          <img src={props.logo} alt="logo" />
+          {props.logo ? <img src={props.logo} alt="logo" /> : <Skeleton />}
         </div>
         <div className="card-data-container info">
-          <div className="text">{props.name}</div>
-          <div className="text">{props.role}</div>
-          {props.location && <div className="text">{props.location}</div>}
+          <div className="text">{props.name || <Skeleton />}</div>
+          <div className="text">{props.role || <Skeleton />}</div>
+          {props.location && (
+            <div className="text">{props.location || <Skeleton />}</div>
+          )}
         </div>
       </div>
-      <div className="card-footer-container">{props.tags}</div>
+      <div className="card-footer-container">{props.tags || <Skeleton />}</div>
     </CardContainer>
   );
 };

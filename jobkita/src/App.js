@@ -1,12 +1,12 @@
 import React from "react";
-import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "./Routes";
 import { ApolloProvider } from "@apollo/client";
 import client from "./config/graphql";
-import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-
+import "./App.css";
+import "react-toastify/dist/ReactToastify.css";
+import "react-loading-skeleton/dist/skeleton.css";
 const App = () => {
   return (
     <div className="App">
